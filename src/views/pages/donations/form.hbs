@@ -1,0 +1,109 @@
+<div class="max-w-4xl mx-auto pb-20">
+  <div class="mb-6">
+    <h1 class="text-2xl font-bold text-slate-900 dark:text-white">Registrar Donación</h1>
+    <p class="text-slate-500">Ingresa los detalles de la donación recibida.</p>
+  </div>
+
+  {{#if error}}
+  <div class="mb-6 p-4 bg-red-50 text-red-700 rounded-lg border border-red-200">
+    {{error}}
+  </div>
+  {{/if}}
+
+  <form action="/donations" method="POST" id="donationForm">
+    <input type="hidden" name="_csrf" value="{{csrfToken}}">
+    <!-- Security: Ensure we submit to the active center -->
+    <input type="hidden" name="center_id" value="{{activeCenterId}}">
+
+    <!-- 1. Donor Section -->
+    <div class="card mb-6">
+      <h2 class="text-lg font-semibold text-slate-900 dark:text-white mb-4">Datos del Donante</h2>
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <div class="md:col-span-2">
+          <label class="block text-sm font-medium text-slate-700 dark:text-slate-300">RUT Donante</label>
+          <div class="flex gap-2">
+            <input type="text" name="donor_rut" id="donor_rut" class="input-field" placeholder="12.345.678-9" required>
+            <button type="button" id="searchDonorBtn" class="btn-secondary">Buscar</button>
+          </div>
+          <p class="text-xs text-slate-500 mt-1">Ingresa el RUT para buscar si ya existe.</p>
+        </div>
+
+        <div>
+          <label class="block text-sm font-medium text-slate-700 dark:text-slate-300">Nombres</label>
+          <input type="text" name="donor_first_name" id="donor_first_name" class="input-field" required>
+        </div>
+        <div>
+          <label class="block text-sm font-medium text-slate-700 dark:text-slate-300">Apellidos</label>
+          <input type="text" name="donor_last_name" id="donor_last_name" class="input-field" required>
+        </div>
+        <div class="md:col-span-2">
+          <label class="block text-sm font-medium text-slate-700 dark:text-slate-300">Email (Opcional)</label>
+          <input type="email" name="donor_email" id="donor_email" class="input-field">
+        </div>
+        <!-- Hidden ID if existing -->
+        <input type="hidden" name="donor_id" id="donor_id">
+      </div>
+    </div>
+
+    <!-- 2. Items Section -->
+    <div class="card mb-6">
+      <div class="flex justify-between items-center mb-4">
+        <h2 class="text-lg font-semibold text-slate-900 dark:text-white">Items de la Donación</h2>
+        <button type="button" id="addItemBtn" class="text-sm text-primary-600 font-medium hover:text-primary-700">
+          + Agregar Item
+        </button>
+      </div>
+
+      <div class="overflow-x-auto">
+        <table class="w-full text-left text-sm" id="itemsTable">
+          <thead class="bg-slate-50 dark:bg-slate-700 text-slate-600 dark:text-slate-200">
+            <tr>
+              <th class="p-3 rounded-l-lg">Producto</th>
+              <th class="p-3 w-32">Cantidad</th>
+              <th class="p-3 w-24">Unidad</th>
+              <th class="p-3 w-16 rounded-r-lg"></th>
+            </tr>
+          </thead>
+          <tbody class="divide-y divide-slate-100 dark:divide-slate-700" id="itemsContainer">
+            <!-- Rows injected by JS -->
+          </tbody>
+        </table>
+      </div>
+      <div id="emptyState" class="text-center py-8 text-slate-500">
+        No hay items agregados.
+      </div>
+    </div>
+
+    <!-- Actions -->
+    <div class="flex justify-end gap-4">
+      <a href="/dashboard" class="btn-secondary">Cancelar</a>
+      <button type="submit" class="btn-primary">Registrar Donación</button>
+    </div>
+  </form>
+</div>
+
+<!-- Template for Item Row -->
+<template id="itemRowTemplate">
+  <tr class="item-row group">
+    <td class="p-2 relative">
+      <input type="text" class="input-field product-search" placeholder="Buscar producto..." autocomplete="off">
+      <input type="hidden" name="items[INDEX][product_id]" class="product-id" required>
+      <div
+        class="absolute z-10 w-full bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-md shadow-lg mt-1 hidden suggestions-box max-h-48 overflow-y-auto">
+      </div>
+    </td>
+    <td class="p-2">
+      <input type="number" name="items[INDEX][quantity]" class="input-field" min="1" required>
+    </td>
+    <td class="p-2">
+      <input type="text" name="items[INDEX][unit]" class="input-field bg-slate-50 dark:bg-slate-700" readonly>
+    </td>
+    <td class="p-2 text-center">
+      <button type="button" class="text-slate-400 hover:text-danger p-1 remove-row">
+        &times;
+      </button>
+    </td>
+  </tr>
+</template>
+
+<script src="/js/donation-form.js"></script>

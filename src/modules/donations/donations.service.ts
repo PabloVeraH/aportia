@@ -78,4 +78,29 @@ export class DonationsService {
 
     return donation;
   }
+
+  async findAll(centerId: string) {
+    const { data, error } = await this.supabase.getClient()
+      .from('donations')
+      .select(`
+              id,
+              received_at,
+              status,
+              donors (
+                  first_name,
+                  last_name,
+                  rut
+              ),
+              donation_items (count)
+          `)
+      .eq('center_id', centerId)
+      .order('received_at', { ascending: false });
+
+    if (error) {
+      console.error('Error fetching donations', error);
+      return [];
+    }
+
+    return data;
+  }
 }

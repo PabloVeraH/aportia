@@ -8,6 +8,19 @@ import type { Request, Response } from 'express';
 export class DonationsController {
   constructor(private readonly donationsService: DonationsService) { }
 
+  @Get()
+  @Render('pages/donations/index')
+  async index(@Req() req: any) {
+    const activeCenterId = req.cookies['x-active-center-id'];
+    const donations = await this.donationsService.findAll(activeCenterId);
+
+    return {
+      layout: 'layouts/main',
+      title: 'Donaciones - HelpChain',
+      donations
+    };
+  }
+
   @Get('new')
   @Render('pages/donations/form')
   async new(@Req() req: any) {
