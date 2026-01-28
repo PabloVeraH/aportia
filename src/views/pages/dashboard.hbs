@@ -1,0 +1,49 @@
+<div class="mb-6 flex justify-between items-center">
+  <div>
+    <h1 class="text-2xl font-bold text-slate-900 dark:text-white">Dashboard</h1>
+    <p class="text-sm text-slate-500">Resumen de operaciones del centro</p>
+  </div>
+
+  {{#if activeCenterId}}
+  <!-- Actions could go here -->
+  {{/if}}
+</div>
+
+{{#if centers.length}}
+<div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+  <div class="card bg-white dark:bg-slate-800 p-6 rounded-lg shadow-sm border border-slate-200 dark:border-slate-700">
+    <h3 class="text-sm font-medium text-slate-500 dark:text-slate-400">Donaciones Hoy</h3>
+    <p class="mt-2 text-3xl font-bold text-slate-900 dark:text-white">0</p>
+  </div>
+  <div class="card bg-white dark:bg-slate-800 p-6 rounded-lg shadow-sm border border-slate-200 dark:border-slate-700">
+    <h3 class="text-sm font-medium text-slate-500 dark:text-slate-400">Items Recibidos</h3>
+    <p class="mt-2 text-3xl font-bold text-slate-900 dark:text-white">0</p>
+  </div>
+  <div class="card bg-white dark:bg-slate-800 p-6 rounded-lg shadow-sm border border-slate-200 dark:border-slate-700">
+    <h3 class="text-sm font-medium text-slate-500 dark:text-slate-400">Pendientes de Revisión</h3>
+    <p class="mt-2 text-3xl font-bold text-slate-900 dark:text-white">0</p>
+  </div>
+</div>
+
+<!-- Quick Actions -->
+<h2 class="text-lg font-semibold text-slate-900 dark:text-white mb-4">Accesos Rápidos</h2>
+<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+  <a href="/donations/new"
+    class="block p-4 bg-primary-50 rounded-lg hover:bg-primary-100 transition border border-primary-100 dark:bg-slate-800 dark:border-slate-700 dark:hover:bg-slate-700">
+    <div class="font-medium text-primary-700 dark:text-primary-400">Registrar Donación</div>
+    <p class="text-sm text-primary-600 dark:text-slate-400 mt-1">Ingreso rápido de items</p>
+  </a>
+</div>
+
+{{else}}
+<div class="text-center py-12">
+  <div class="bg-gray-100 rounded-full h-16 w-16 flex items-center justify-center mx-auto mb-4">
+    <svg class="h-8 w-8 text-gray-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+        d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10" />
+    </svg>
+  </div>
+  <h3 class="text-lg font-medium text-slate-900 dark:text-white">Sin Centros Asignados</h3>
+  <p class="mt-2 text-slate-500">No tienes acceso a ningún centro operativo. Contacta a un administrador.</p>
+</div>
+{{/if}}

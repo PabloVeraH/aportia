@@ -14,6 +14,9 @@ async function bootstrap() {
   app.setViewEngine('hbs');
 
   hbs.registerPartials(join(__dirname, '..', 'src', 'views', 'partials'));
+  hbs.registerHelper('eq', function (a, b) {
+    return a === b;
+  });
 
   app.use(cookieParser());
   app.useGlobalPipes(new ValidationPipe());
