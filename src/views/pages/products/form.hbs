@@ -1,0 +1,68 @@
+<div class="max-w-2xl mx-auto">
+  <div class="mb-6">
+    <h1 class="text-2xl font-bold text-slate-900 dark:text-white">
+      {{#if isNew}}Nuevo Producto{{else}}Editar Producto{{/if}}
+    </h1>
+    <p class="text-sm text-slate-500">Completa los datos del producto.</p>
+  </div>
+
+  {{#if error}}
+  <div class="mb-6 p-4 bg-red-50 text-red-700 rounded-lg border border-red-200">
+    {{error}}
+  </div>
+  {{/if}}
+
+  <div class="card p-6">
+    <form action="{{#if isNew}}/products{{else}}/products/{{product.id}}{{/if}}" method="POST" class="space-y-6">
+      <input type="hidden" name="_csrf" value="{{csrfToken}}">
+
+      <!-- Context Warning -->
+      <div class="p-3 bg-blue-50 text-blue-700 rounded-md text-sm mb-4">
+        <strong>Nota:</strong> Los productos son globales para todos los centros.
+      </div>
+
+      <div>
+        <label for="name" class="block text-sm font-medium text-slate-700 dark:text-slate-300">Nombre del
+          Producto</label>
+        <input type="text" name="name" id="name" required value="{{product.name}}" class="mt-1 input-field"
+          placeholder="Ej: Arroz Grado 2">
+      </div>
+
+      <div>
+        <label for="barcode" class="block text-sm font-medium text-slate-700 dark:text-slate-300">Código de Barras
+          (Opcional)</label>
+        <input type="text" name="barcode" id="barcode" value="{{product.barcode}}" class="mt-1 input-field"
+          placeholder="Ej: 7801234567890">
+      </div>
+
+      <div>
+        <label for="unit" class="block text-sm font-medium text-slate-700 dark:text-slate-300">Unidad de Medida</label>
+        <select name="unit" id="unit" class="mt-1 input-field" required>
+          <option value="">Selecciona una unidad</option>
+          <option value="Kg" {{#if (eq product.unit 'Kg' )}}selected{{/if}}>Kilogramo (Kg)</option>
+          <option value="Lt" {{#if (eq product.unit 'Lt' )}}selected{{/if}}>Litro (Lt)</option>
+          <option value="Unidad" {{#if (eq product.unit 'Unidad' )}}selected{{/if}}>Unidad</option>
+          <option value="Paquete" {{#if (eq product.unit 'Paquete' )}}selected{{/if}}>Paquete</option>
+          <option value="Caja" {{#if (eq product.unit 'Caja' )}}selected{{/if}}>Caja</option>
+          <option value="Saco" {{#if (eq product.unit 'Saco' )}}selected{{/if}}>Saco</option>
+        </select>
+      </div>
+
+      <div class="flex items-center">
+        <input type="checkbox" name="active" id="active"
+          class="h-4 w-4 text-primary-600 focus:ring-primary-500 border-gray-300 rounded" {{#if
+          isNew}}checked{{else}}{{#if product.active}}checked{{/if}}{{/if}}>
+        <label for="active" class="ml-2 block text-sm text-slate-900 dark:text-slate-300">
+          Producto Activo
+        </label>
+      </div>
+
+      <div class="flex justify-end gap-3 pt-4 border-t border-slate-100 dark:border-slate-700">
+        <a href="/products" class="btn-secondary">Cancelar</a>
+        <button type="submit" class="btn-primary">
+          {{#if isNew}}Crear Producto{{else}}Guardar Cambios{{/if}}
+        </button>
+      </div>
+    </form>
+  </div>
+</div>

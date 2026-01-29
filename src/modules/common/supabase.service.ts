@@ -24,4 +24,24 @@ export class SupabaseService {
   getClient(): SupabaseClient {
     return this.client;
   }
+
+  getClientForUser(accessToken: string): SupabaseClient {
+    if (!accessToken) return this.client;
+
+    const supabaseUrl = this.configService.get<string>('SUPABASE_URL') || '';
+    const supabaseKey = this.configService.get<string>('SUPABASE_ANON_KEY') || '';
+
+    return createClient(supabaseUrl, supabaseKey, {
+      auth: {
+        persistSession: false,
+        autoRefreshToken: false,
+        detectSessionInUrl: false
+      },
+      global: {
+        headers: {
+          Authorization: `Bearer ${accessToken}`
+        }
+      }
+    });
+  }
 }

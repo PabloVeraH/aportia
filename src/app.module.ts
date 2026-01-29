@@ -7,6 +7,7 @@ import { CommonModule } from './modules/common/common.module';
 import { AuthModule } from './modules/auth/auth.module';
 import { DashboardModule } from './modules/dashboard/dashboard.module';
 import { DonationsModule } from './modules/donations/donations.module';
+import { ProductsModule } from './modules/products/products.module';
 import { ViewContextInterceptor } from './modules/common/interceptors/view-context.interceptor';
 import { AuthExceptionFilter } from './modules/common/filters/auth-exception.filter';
 
@@ -17,6 +18,7 @@ import { AuthExceptionFilter } from './modules/common/filters/auth-exception.fil
     AuthModule,
     DashboardModule,
     DonationsModule,
+    ProductsModule,
   ],
   controllers: [AppController],
   providers: [
