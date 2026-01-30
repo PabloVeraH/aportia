@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import 'react'
 
 function App() {
   return (
