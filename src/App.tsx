@@ -4,6 +4,8 @@ import { useAuth } from './context/AuthContext'
 import Login from './pages/Login'
 import Dashboard from './pages/Dashboard'
 import NewDonation from './pages/Donations/New'
+import ProductList from './pages/Products/Index'
+import ProductFormPage from './pages/Products/FormPage'
 
 const ProtectedRoute = ({ children }: { children: React.ReactNode }) => {
   const { user, loading } = useAuth()
@@ -37,6 +39,30 @@ function App() {
           element={
             <ProtectedRoute>
               <NewDonation />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/products"
+          element={
+            <ProtectedRoute>
+              <ProductList />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/products/new"
+          element={
+            <ProtectedRoute>
+              <ProductFormPage />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/products/:id/edit"
+          element={
+            <ProtectedRoute>
+              <ProductFormPage />
             </ProtectedRoute>
           }
         />
