@@ -19,10 +19,83 @@ export interface CreateDonationPayload {
   items: DonationItemInput[];
 }
 
+export interface Donation {
+  id: string;
+  received_at: string;
+  status: string;
+  donors: {
+    first_name: string;
+    last_name: string;
+    rut: string;
+  };
+  donation_items: { count: number }[]; // Supabase returns array even for count aggregation usually
+}
+
+export interface DonationDetail extends Donation {
+  donation_items: any[]; // We will load full items here
+}
+
 export function useDonations() {
   const { user } = useAuth();
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
+
+  const findAll = async (centerId: string): Promise<Donation[]> => {
+    setLoading(true);
+    try {
+      const { data, error } = await supabase
+        .from('donations')
+        .select(`
+          id,
+          received_at,
+          status,
+          donors (
+            first_name,
+            last_name,
+            rut
+          ),
+          donation_items (count)
+        `)
+        .eq('center_id', centerId)
+        .order('received_at', { ascending: false });
+
+      if (error) throw error;
+      return data as any[];
+    } catch (err: any) {
+      console.error('Error fetching donations:', err);
+      setError(err.message);
+      return [];
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const findOne = async (id: string) => {
+    setLoading(true);
+    try {
+      const { data, error } = await supabase
+        .from('donations')
+        .select(`
+          *,
+          donors (*),
+          donation_items (
+            *,
+            products (name, unit, barcode)
+          )
+        `)
+        .eq('id', id)
+        .single();
+
+      if (error) throw error;
+      return data;
+    } catch (err: any) {
+      console.error('Error fetching donation detail:', err);
+      setError(err.message);
+      return null;
+    } finally {
+      setLoading(false);
+    }
+  };
 
   const searchDonor = async (rut: string) => {
     if (!rut) return null;
@@ -128,5 +201,5 @@ export function useDonations() {
     }
   };
 
-  return { createDonation, searchDonor, loading, error };
+  return { createDonation, searchDonor, findAll, findOne, loading, error };
 }
