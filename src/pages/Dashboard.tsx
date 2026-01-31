@@ -1,65 +1,25 @@
 import { Link } from 'react-router-dom';
 import { useCenter } from '@/context/CenterContext';
-import { useAuth } from '@/context/AuthContext';
-import { Building2, Package, CheckSquare, PlusCircle, AlertCircle } from 'lucide-react';
+// import { useAuth } from '@/context/AuthContext'; // Unused
+import { Building2, Package, CheckSquare, PlusCircle } from 'lucide-react';
 
 export default function Dashboard() {
-  const { activeCenter, centers, switchCenter, loading } = useCenter();
-  const { signOut } = useAuth();
+  const { activeCenter, loading } = useCenter();
+  // const { signOut } = useAuth(); // Handled in Header
 
   if (loading) {
     return <div className="p-8 text-center text-gray-500">Cargando dashboard...</div>;
   }
 
-  if (!activeCenter) {
-    return (
-      <div className="flex flex-col items-center justify-center min-h-[50vh] text-center p-8">
-        <div className="bg-gray-100 dark:bg-slate-800 rounded-full h-20 w-20 flex items-center justify-center mb-6">
-          <AlertCircle className="h-10 w-10 text-gray-400" />
-        </div>
-        <h3 className="text-xl font-medium text-slate-900 dark:text-white">Sin Centros Asignados</h3>
-        <p className="mt-2 text-slate-500 max-w-sm">
-          No tienes acceso a ningún centro operativo activo. Por favor, contacta a un administrador para solicitar acceso.
-        </p>
-      </div>
-    );
-  }
+  // MainLayout handles the loading and "no active center" states
+  if (loading || !activeCenter) return null;
 
   return (
     <div className="container mx-auto px-4 py-8">
-      {/* Header & Center Switcher */}
-      <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-8 gap-4">
-        <div>
-          <h1 className="text-2xl font-bold text-slate-900 dark:text-white">Dashboard</h1>
-          <p className="text-slate-500 dark:text-slate-400">Resumen de operaciones del centro</p>
-        </div>
-
-        <div className="flex gap-4 items-center">
-          {centers.length > 1 && (
-            <div className="relative">
-              <label className="block text-xs font-medium text-gray-500 mb-1">Centro Activo</label>
-              <select
-                value={activeCenter.id}
-                onChange={(e) => switchCenter(e.target.value)}
-                className="block w-full rounded-md border-gray-300 py-2 pl-3 pr-10 text-base focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm dark:bg-slate-800 dark:border-slate-700 dark:text-white"
-              >
-                {centers.map((center) => (
-                  <option key={center.id} value={center.id}>
-                    {center.name}
-                  </option>
-                ))}
-              </select>
-            </div>
-          )}
-          {centers.length === 1 && (
-            <div className="px-4 py-2 bg-indigo-50 text-indigo-700 rounded-md text-sm font-medium border border-indigo-100">
-              {activeCenter.name}
-            </div>
-          )}
-          <button onClick={signOut} className="text-sm text-red-600 hover:text-red-800 font-medium">
-            Cerrar Sesión
-          </button>
-        </div>
+      {/* Header */}
+      <div className="mb-8">
+        <h1 className="text-2xl font-bold text-slate-900 dark:text-white">Dashboard</h1>
+        <p className="text-slate-500 dark:text-slate-400">Resumen de operaciones del centro {activeCenter.name}</p>
       </div>
 
       {/* Stats Grid */}

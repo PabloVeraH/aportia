@@ -1,8 +1,8 @@
-import 'react'
-import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom'
+import { BrowserRouter, Routes, Route, Navigate, Outlet } from 'react-router-dom'
 import { useAuth } from './context/AuthContext'
 import Login from './pages/Login'
 import Dashboard from './pages/Dashboard'
+import MainLayout from './layouts/MainLayout'
 import NewDonation from './pages/Donations/New'
 import ProductList from './pages/Products/Index'
 import ProductFormPage from './pages/Products/FormPage'
@@ -26,46 +26,22 @@ function App() {
     <BrowserRouter basename={import.meta.env.BASE_URL}>
       <Routes>
         <Route path="/login" element={<Login />} />
+
         <Route
-          path="/"
           element={
             <ProtectedRoute>
-              <Dashboard />
+              <MainLayout>
+                <Outlet />
+              </MainLayout>
             </ProtectedRoute>
           }
-        />
-        <Route
-          path="/donations/new"
-          element={
-            <ProtectedRoute>
-              <NewDonation />
-            </ProtectedRoute>
-          }
-        />
-        <Route
-          path="/products"
-          element={
-            <ProtectedRoute>
-              <ProductList />
-            </ProtectedRoute>
-          }
-        />
-        <Route
-          path="/products/new"
-          element={
-            <ProtectedRoute>
-              <ProductFormPage />
-            </ProtectedRoute>
-          }
-        />
-        <Route
-          path="/products/:id/edit"
-          element={
-            <ProtectedRoute>
-              <ProductFormPage />
-            </ProtectedRoute>
-          }
-        />
+        >
+          <Route path="/" element={<Dashboard />} />
+          <Route path="/donations/new" element={<NewDonation />} />
+          <Route path="/products" element={<ProductList />} />
+          <Route path="/products/new" element={<ProductFormPage />} />
+          <Route path="/products/:id/edit" element={<ProductFormPage />} />
+        </Route>
       </Routes>
     </BrowserRouter>
   )
