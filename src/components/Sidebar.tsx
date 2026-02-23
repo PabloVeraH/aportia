@@ -1,6 +1,6 @@
 import { Link, useLocation } from 'react-router-dom';
 import { useAuth } from '@/context/AuthContext';
-import { LayoutDashboard, Gift, Package } from 'lucide-react';
+import { LayoutDashboard, Gift, Package, Heart } from 'lucide-react';
 import clsx from 'clsx';
 
 export default function Sidebar() {
@@ -14,12 +14,19 @@ export default function Sidebar() {
   ];
 
   return (
-    <aside className="w-64 bg-white dark:bg-slate-800 border-r border-slate-200 dark:border-slate-700 hidden md:flex flex-col h-screen sticky top-0">
-      <div className="h-16 flex items-center px-6 border-b border-slate-200 dark:border-slate-700">
-        <span className="text-xl font-bold text-indigo-600 dark:text-indigo-500">HelpChain</span>
+    <aside className="w-64 bg-stone-50 dark:bg-stone-950 border-r border-stone-200 dark:border-stone-800 hidden md:flex flex-col h-screen sticky top-0">
+      {/* Brand */}
+      <div className="h-16 flex items-center px-5 border-b border-stone-200 dark:border-stone-800">
+        <div className="flex items-center gap-2.5">
+          <div className="w-7 h-7 rounded-lg bg-primary-100 dark:bg-primary-900/30 flex items-center justify-center flex-shrink-0">
+            <Heart className="h-3.5 w-3.5 text-primary-700 dark:text-primary-500 fill-current" />
+          </div>
+          <span className="text-base font-bold text-stone-900 dark:text-stone-100 tracking-tight">HelpChain</span>
+        </div>
       </div>
 
-      <nav className="flex-1 p-4 space-y-1">
+      {/* Navigation */}
+      <nav className="flex-1 p-3 space-y-0.5">
         {navigation.map((item) => {
           const isActive = location.pathname === item.href || (item.href !== '/' && location.pathname.startsWith(item.href));
           return (
@@ -27,18 +34,18 @@ export default function Sidebar() {
               key={item.name}
               to={item.href}
               className={clsx(
-                'flex items-center px-4 py-2 text-sm font-medium rounded-lg transition-colors group',
+                'flex items-center px-3 py-2 text-sm font-medium rounded-lg transition-colors group',
                 isActive
-                  ? 'bg-indigo-50 text-indigo-700 dark:bg-slate-700 dark:text-white'
-                  : 'text-slate-600 hover:bg-slate-50 dark:text-slate-300 dark:hover:bg-slate-700'
+                  ? 'bg-primary-50 text-primary-800 dark:bg-stone-800 dark:text-primary-400'
+                  : 'text-stone-500 hover:bg-stone-100 hover:text-stone-700 dark:text-stone-400 dark:hover:bg-stone-800 dark:hover:text-stone-200'
               )}
             >
               <item.icon
                 className={clsx(
-                  'mr-3 h-5 w-5 flex-shrink-0',
+                  'mr-3 h-4 w-4 flex-shrink-0',
                   isActive
-                    ? 'text-indigo-600 dark:text-white'
-                    : 'text-slate-400 group-hover:text-slate-500 dark:text-slate-400 dark:group-hover:text-slate-300'
+                    ? 'text-primary-700 dark:text-primary-400'
+                    : 'text-stone-400 group-hover:text-stone-500 dark:text-stone-500 dark:group-hover:text-stone-300'
                 )}
                 aria-hidden="true"
               />
@@ -48,14 +55,17 @@ export default function Sidebar() {
         })}
       </nav>
 
+      {/* User */}
       {user && (
-        <div className="p-4 border-t border-slate-200 dark:border-slate-700">
+        <div className="p-4 border-t border-stone-200 dark:border-stone-800">
           <div className="flex items-center gap-3">
-            <div className="w-8 h-8 rounded-full bg-indigo-100 flex items-center justify-center text-indigo-700 font-bold overflow-hidden shadow-sm">
-              <span className="uppercase">{user.email?.[0]}</span>
+            <div className="w-8 h-8 rounded-full bg-primary-100 dark:bg-primary-900/30 flex items-center justify-center flex-shrink-0">
+              <span className="text-xs font-bold text-primary-800 dark:text-primary-400 uppercase">
+                {user.email?.[0]}
+              </span>
             </div>
             <div className="flex-1 min-w-0">
-              <p className="text-sm font-medium text-slate-900 dark:text-white truncate" title={user.email}>
+              <p className="text-xs font-medium text-stone-600 dark:text-stone-400 truncate" title={user.email}>
                 {user.email}
               </p>
             </div>

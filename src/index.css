@@ -4,18 +4,18 @@
 
 @layer components {
     .btn-primary {
-        @apply px-4 py-2 bg-primary-600 text-white rounded-lg hover:bg-primary-700 transition font-medium focus:ring-2 focus:ring-primary-500 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed;
+        @apply px-4 py-2 bg-primary-600 text-white rounded-lg hover:bg-primary-700 transition-colors font-medium focus:outline-none focus:ring-2 focus:ring-primary-400 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed;
     }
     .btn-secondary {
-        @apply px-4 py-2 bg-white text-slate-800 border border-slate-300 rounded-lg hover:bg-slate-50 transition font-medium dark:bg-slate-800 dark:text-white dark:border-slate-700 focus:ring-2 focus:ring-slate-500 focus:ring-offset-2;
+        @apply px-4 py-2 bg-white text-stone-700 border border-stone-200 rounded-lg hover:bg-stone-50 transition-colors font-medium dark:bg-stone-800 dark:text-stone-100 dark:border-stone-700 dark:hover:bg-stone-700 focus:outline-none focus:ring-2 focus:ring-stone-300 focus:ring-offset-2;
     }
     .btn-danger {
-        @apply px-4 py-2 bg-danger text-white rounded-lg hover:bg-red-600 transition font-medium focus:ring-2 focus:ring-red-500 focus:ring-offset-2;
+        @apply px-4 py-2 bg-danger text-white rounded-lg hover:bg-red-700 transition-colors font-medium focus:outline-none focus:ring-2 focus:ring-red-400 focus:ring-offset-2;
     }
     .input-field {
-        @apply block w-full rounded-md border-slate-300 shadow-sm focus:border-primary-500 focus:ring-primary-500 sm:text-sm dark:bg-slate-800 dark:border-slate-700 dark:text-gray-300 py-2 px-3;
+        @apply block w-full rounded-lg border border-stone-200 bg-white outline-none focus:border-primary-400 focus:ring-1 focus:ring-primary-400 sm:text-sm dark:bg-stone-800 dark:border-stone-700 dark:text-stone-200 dark:focus:border-primary-500 dark:focus:ring-primary-500 py-2 px-3 transition-colors;
     }
     .card {
-        @apply bg-white dark:bg-slate-800 shadow rounded-lg p-6 border border-slate-200 dark:border-slate-700;
+        @apply bg-white dark:bg-stone-800 rounded-xl p-6 border border-stone-100 dark:border-stone-700/60;
     }
 }
